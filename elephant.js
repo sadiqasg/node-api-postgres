@@ -8,7 +8,7 @@ client.connect(function(err) {
   if(err) {
     return console.error('could not connect to postgres', err);
   }
-});
+})
 
 const getUsers = (req, res) => {
   client.query('select * from usersRec', function(err, result) {
