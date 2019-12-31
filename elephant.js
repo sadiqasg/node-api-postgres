@@ -8,12 +8,71 @@ client.connect(function(err) {
   if(err) {
     return console.error('could not connect to postgres', err);
   }
-  client.query('SELECT NOW() AS "theTime"', function(err, result) {
+});
+
+const getUsers = (req, res) => {
+  client.query('select * from usersRec', function(err, result) {
     if(err) {
       return console.error('error running query', err);
     }
-    console.log(result.rows[0].theTime);
-    // >> output: 2018-08-23T14:02:57.117Z
+    res.status(200).json(result.rows[0])
     client.end();
   });
-});
+}
+
+// const getUserById = (req, res) => {
+//   const id = parseInt(req.params.id)
+
+//   pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     res.status(200).json(results.rows)
+//   })
+// }
+
+// const createUser = (req, res) => {
+//   const { name, email } = req.body
+
+//   pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     res.status(201).send(`User added with ID: ${results.insertId}`)
+//   })
+// }
+
+// const updateUser = (req, res) => {
+//   const id = parseInt(req.params.id)
+//   const { name, email } = req.body
+
+//   pool.query(
+//     'UPDATE users SET name = $1, email = $2 WHERE id = $3',
+//     [name, email, id],
+//     (error, results) => {
+//       if (error) {
+//         throw error
+//       }
+//       res.status(200).send(`User modified with ID: ${id}`)
+//     }
+//   )
+// }
+
+// const deleteUser = (req, res) => {
+//   const id = parseInt(req.params.id)
+
+//   pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     res.status(200).send(`User deleted with ID: ${id}`)
+//   })
+// }
+
+module.exports = {
+  getUsers,
+  // getUserById,
+  // createUser,
+  // updateUser,
+  // deleteUser,
+}
